@@ -22,4 +22,4 @@ wheels/
 .opencode/
 
 # Vector store
-.chroma_db/
+# .chroma_db/

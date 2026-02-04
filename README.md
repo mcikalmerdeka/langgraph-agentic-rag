@@ -1,3 +1,21 @@
+---
+title: LangGraph Agentic RAG
+emoji: 🤖
+colorFrom: blue
+colorTo: gray
+sdk: gradio
+python_version: 3.12
+sdk_version: 6.5.1
+app_file: main.py
+pinned: false
+license: mit
+short_description: Advanced Retrieval-Augmented Generation (RAG) system built with LangGraph
+tags:
+  - langgraph
+  - rag
+  - agentic
+---
+
 # LangGraph Agentic RAG: Intelligent Document Retrieval System
 
 **Repository:** [github.com/mcikalmerdeka/langgraph-agentic-rag](https://github.com/mcikalmerdeka/langgraph-agentic-rag)
