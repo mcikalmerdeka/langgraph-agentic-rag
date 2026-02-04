@@ -9,7 +9,7 @@ sdk_version: 6.5.1
 app_file: main.py
 pinned: false
 license: mit
-short_description: Advanced Retrieval-Augmented Generation (RAG) system built with LangGraph
+short_description: RAG with LangGraph, retrieval, web search & validation
 tags:
   - langgraph
   - rag
