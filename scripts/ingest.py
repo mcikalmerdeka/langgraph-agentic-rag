@@ -6,11 +6,12 @@ import sys
 # Add project root to path for direct script execution
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from src.config import setup_logger, logger_ingestion as logger
 from src.config.settings import settings
-from src.core import logger, setup_logging
 from src.ingestion import ingest_documents, load_documents, split_documents
 
-setup_logging("INFO")
+# Configure logging at startup - logs to terminal and logs/app.log
+setup_logger(name="agentic_rag", level=20)  # 20 = INFO level
 
 
 def main() -> None:

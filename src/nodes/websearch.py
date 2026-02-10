@@ -28,18 +28,30 @@ def web_search_node(state: GraphState) -> Dict[str, Any]:
     """
     question = state["question"]
     documents = state.get("documents") or []
+    
+    # Get retrieval config to check web search settings
+    retrieval_config = state.get("retrieval_config", {})
+    max_web_results = retrieval_config.get("max_web_results", settings.TAVILY_MAX_RESULTS)
 
     logger.debug(f"Web searching: {question[:50]}...")
+    logger.info(f"Web search configured for max {max_web_results} results")
 
-    # Perform web search
-    tavily_results = _web_search_tool.invoke({"query": question})["results"]
+    # Perform web search with configured max results
+    web_search_tool = TavilySearch(
+        max_results=max_web_results,
+        api_key=settings.TAVILY_API_KEY,
+    )
+    tavily_results = web_search_tool.invoke({"query": question})["results"]
 
     # Combine search results into a single document
     joined_content = "\n".join(result["content"] for result in tavily_results)
-    web_doc = Document(page_content=joined_content)
+    web_doc = Document(
+        page_content=joined_content,
+        metadata={"source": "web_search", "title": "Web Search Results"}
+    )
 
     documents.append(web_doc)
 
-    logger.info(f"Web search returned {len(tavily_results)} results")
+    logger.info(f"Web search returned {len(tavily_results)} results (added as 1 document)")
 
-    return {"documents": documents}
+    return {"documents": [web_doc]}  # Return as list to use operator.add properly

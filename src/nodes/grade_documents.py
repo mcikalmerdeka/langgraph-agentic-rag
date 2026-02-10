@@ -25,7 +25,7 @@ def grade_documents_node(state: GraphState) -> Dict[str, Any]:
     documents = state["documents"]
 
     filtered_docs = []
-    web_search = False
+    irrelevant_count = 0
 
     for i, doc in enumerate(documents, 1):
         score = retrieval_grader.invoke(
@@ -38,8 +38,11 @@ def grade_documents_node(state: GraphState) -> Dict[str, Any]:
             filtered_docs.append(doc)
         else:
             logger.debug(f"Doc {i}: ✗ not relevant")
-            web_search = True
+            irrelevant_count += 1
 
-    logger.info(f"Graded {len(documents)} docs → {len(filtered_docs)} relevant")
+    # Only trigger web search if majority (>= 60%) of documents are irrelevant
+    web_search = len(filtered_docs) == 0 or (irrelevant_count / len(documents) >= 0.6)
+
+    logger.info(f"Graded {len(documents)} docs → {len(filtered_docs)} relevant (web_search: {web_search})")
 
     return {"documents": filtered_docs, "web_search": web_search}

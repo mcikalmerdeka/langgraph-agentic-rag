@@ -22,4 +22,7 @@ wheels/
 .opencode/
 
 # Vector store
-# .chroma_db/
+# vector_store/
+
+# Application logs
+logs/
